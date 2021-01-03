@@ -23,7 +23,7 @@ const initiativeSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	initiativeName: {
+	statement: {
 		type: String,
 		required: true,
 	},

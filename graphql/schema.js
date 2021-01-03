@@ -40,7 +40,7 @@ module.exports = buildSchema(`
     }
     type RootMutation {
         createInitiative(initiativeInput: InitiativeInputData): Initiative!
-        updateInitiative(_id: ID!, initiativeInput: InitiativeInputData): Initiative!
+        updateInitiative(initiativeInput: InitiativeInputData): Initiative!
         createGoalTeam(goalTeamInput: GoalTeamInputData): GoalTeam!
     }
     schema {

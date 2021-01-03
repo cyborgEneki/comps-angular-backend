@@ -59,19 +59,23 @@ module.exports = {
 			goalTeam: GoalTeam.bind(this, goalTeamRecord),
 		};
 	},
-	updateInitiative: async function (id, { initiativeInput }) {
-		const initiative = new Initiative({
-			name: initiativeInput.name,
-			leadName: initiativeInput.leadName,
-			leadEmail: initiativeInput.leadEmail,
-			startYear: initiativeInput.startYear,
-			endYear: initiativeInput.endYear,
-			statement: initiativeInput.statement,
-			goalTeam: initiativeInput.goalTeam,
-		});
+	updateInitiative: async function ({ initiativeInput }) {
+		let updatedInitiative = await Initiative.findById(
+			"5ff1dd79d48b3fa67fb33946"
+		);
+		updatedInitiative.name = initiativeInput.name;
+		updatedInitiative.leadName = initiativeInput.leadName;
+		updatedInitiative.leadEmail = initiativeInput.leadEmail;
+		updatedInitiative.startYear = initiativeInput.startYear;
+		updatedInitiative.endYear = initiativeInput.endYear;
+		updatedInitiative.statement = initiativeInput.statement;
+		updatedInitiative.goalTeam = initiativeInput.goalTeam;
 
-		const updatedInitiative = await initiative.findByIdAndUpdate(id, initiative);
-		const goalTeamRecord = await GoalTeam.findById(initiative.goalTeam);
+		updatedInitiative = await updatedInitiative.save();
+
+		const goalTeamRecord = await GoalTeam.findById(
+			initiativeInput.goalTeam
+		);
 
 		return {
 			...updatedInitiative._doc,
