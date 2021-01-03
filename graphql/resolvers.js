@@ -6,7 +6,7 @@ module.exports = {
 		try {
 			const goalTeam = await GoalTeam.findById(goalTeamId);
 			return {
-				...goalTeam._doc
+				...goalTeam._doc,
 			};
 		} catch (err) {
 			throw err;
@@ -16,10 +16,12 @@ module.exports = {
 		const initiatives = await Initiative.find();
 		return {
 			initiatives: initiatives.map((q) => {
+				const goalTeamRecord = GoalTeam.findById(q.goalTeam);
+
 				return {
 					...q._doc,
 					_id: q._id.toString(),
-					goalTeam: goalTeam.bind(this, q._doc.goalTeam),
+					goalTeam: goalTeamRecord
 				};
 			}),
 		};
@@ -35,10 +37,10 @@ module.exports = {
 			goalTeam: initiativeInput.goalTeam,
 		});
 
-        const createdInitiative = await initiative.save();
-        const goalTeamRecord = await GoalTeam.findById(initiative.goalTeam);
- 
-        return {
+		const createdInitiative = await initiative.save();
+		const goalTeamRecord = await GoalTeam.findById(initiative.goalTeam);
+
+		return {
 			...createdInitiative._doc,
 			_id: createdInitiative._id.toString(),
 			goalTeam: GoalTeam.bind(this, goalTeamRecord),
