@@ -19,7 +19,7 @@ module.exports = {
 
 			return {
 				...initiative._doc,
-				goalTeam: goalTeamRecord
+				goalTeam: goalTeamRecord,
 			};
 		} catch (err) {
 			throw err;
@@ -56,6 +56,26 @@ module.exports = {
 		return {
 			...createdInitiative._doc,
 			_id: createdInitiative._id.toString(),
+			goalTeam: GoalTeam.bind(this, goalTeamRecord),
+		};
+	},
+	updateInitiative: async function (id, { initiativeInput }) {
+		const initiative = new Initiative({
+			name: initiativeInput.name,
+			leadName: initiativeInput.leadName,
+			leadEmail: initiativeInput.leadEmail,
+			startYear: initiativeInput.startYear,
+			endYear: initiativeInput.endYear,
+			statement: initiativeInput.statement,
+			goalTeam: initiativeInput.goalTeam,
+		});
+
+		const updatedInitiative = await initiative.findByIdAndUpdate(id, initiative);
+		const goalTeamRecord = await GoalTeam.findById(initiative.goalTeam);
+
+		return {
+			...updatedInitiative._doc,
+			_id: updatedInitiative._id.toString(),
 			goalTeam: GoalTeam.bind(this, goalTeamRecord),
 		};
 	},
