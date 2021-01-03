@@ -34,7 +34,7 @@ module.exports = buildSchema(`
         name: String!
     }
     type RootQuery {
-        initiative(_id: String!): Initiative!
+        initiative(_id: ID!): Initiative!
         initiatives: InitiativeData!
         goalTeams: GoalTeamData!
     }

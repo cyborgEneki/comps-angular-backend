@@ -15,7 +15,7 @@ module.exports = {
 	initiative: async (initiativeId) => {
 		try {
 			const initiative = await Initiative.findById(initiativeId);
-			const goalTeamRecord = GoalTeam.findById(initiative.goalTeam);
+			const goalTeamRecord = await GoalTeam.findById(initiative.goalTeam);
 
 			return {
 				...initiative._doc,
