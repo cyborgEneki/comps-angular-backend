@@ -34,6 +34,7 @@ module.exports = buildSchema(`
         name: String!
     }
     type RootQuery {
+        initiative(_id: String!): Initiative!
         initiatives: InitiativeData!
         goalTeams: GoalTeamData!
     }
@@ -45,4 +46,4 @@ module.exports = buildSchema(`
         query: RootQuery
         mutation: RootMutation
     }
-`)
+`);

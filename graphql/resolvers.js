@@ -12,6 +12,19 @@ module.exports = {
 			throw err;
 		}
 	},
+	initiative: async (initiativeId) => {
+		try {
+			const initiative = await Initiative.findById(initiativeId);
+			const goalTeamRecord = GoalTeam.findById(initiative.goalTeam);
+
+			return {
+				...initiative._doc,
+				goalTeam: goalTeamRecord
+			};
+		} catch (err) {
+			throw err;
+		}
+	},
 	initiatives: async function () {
 		const initiatives = await Initiative.find();
 		return {
@@ -21,7 +34,7 @@ module.exports = {
 				return {
 					...q._doc,
 					_id: q._id.toString(),
-					goalTeam: goalTeamRecord
+					goalTeam: goalTeamRecord,
 				};
 			}),
 		};
