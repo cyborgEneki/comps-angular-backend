@@ -12,14 +12,14 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-// app.use(
-//     '/graphql',
-//     graphqlHTTP({
-//         schema: ,
-//         rootValue: ,
-//         graphiql: true,
-//     })
-// )
+app.use(
+    '/graphql',
+    graphqlHTTP({
+        schema: ,
+        rootValue: ,
+        graphiql: true,
+    })
+)
 
 mongoose.connect(
     `mongodb+srv://${config.user}:${config.password}@mean-graphql.ujswl.mongodb.net/${config.dbname}?retryWrites=true&w=majority`, {
