@@ -1,4 +1,5 @@
 const Initiative = require('../models/initiative');
+const GoalTeam = require('../models/goalTeam');
 
 module.exports = {
     initiatives: async function() {
@@ -27,6 +28,28 @@ module.exports = {
         return {
             ...createdInitiative._doc,
             _id: createdInitiative._id.toString() 
+        }
+    },
+    goalTeams: async function() {
+        const goalTeams = await GoalTeam.find();
+        return {
+            goalTeams: goalTeams.map((q) => {
+                return {
+                    ...q._doc,
+                    _id: q._id.toString()
+                }
+            })
+        }
+    },
+    createGoalTeam: async function({ goalTeamInput }) {
+        const goalTeam = new GoalTeam({
+            name: goalTeamInput.name
+        })
+
+        const createdGoalTeam = await goalTeam.save();
+        return {
+            ...createdGoalTeam._doc,
+            _id: createdGoalTeam._id.toString() 
         }
     }
 }

@@ -11,8 +11,15 @@ module.exports = buildSchema(`
         statement: String!
         goalTeam: String!
     }
+    type GoalTeam {
+        _id: ID!
+        name: String!
+    }
     type InitiativeData {
         initiatives: [Initiative!]!
+    }
+    type GoalTeamData {
+        goalTeams: [GoalTeam!]!
     }
     input InitiativeInputData {
         name: String!
@@ -23,11 +30,16 @@ module.exports = buildSchema(`
         statement: String!
         goalTeam: String!
     }
+    input GoalTeamInputData {
+        name: String!
+    }
     type RootQuery {
         initiatives: InitiativeData!
+        goalTeams: GoalTeamData!
     }
     type RootMutation {
         createInitiative(initiativeInput: InitiativeInputData): Initiative!
+        createGoalTeam(goalTeamInput: GoalTeamInputData): GoalTeam!
     }
     schema {
         query: RootQuery
