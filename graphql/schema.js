@@ -9,7 +9,7 @@ module.exports = buildSchema(`
         startYear: String!
         endYear: String!
         statement: String!
-        goalTeam: String!
+        goalTeam: GoalTeam!
     }
     type GoalTeam {
         _id: ID!
