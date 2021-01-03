@@ -1,4 +1,4 @@
-const Initiative = require('../models/indicator');
+const Initiative = require('../models/initiative');
 
 module.exports = {
     initiatives: async function() {
@@ -10,6 +10,23 @@ module.exports = {
                     _id: q._id.toString()
                 }
             })
+        }
+    },
+    createInitiative: async function({ initiativeInput }) {
+        const initiative = new Initiative({
+            name: initiativeInput.name,
+            leadName: initiativeInput.leadName,
+            leadEmail: initiativeInput.leadEmail,
+            startYear: initiativeInput.startYear,
+            endYear: initiativeInput.endYear,
+            statement: initiativeInput.statement,
+            goalTeam: initiativeInput.goalTeam
+        })
+
+        const createdInitiative = await initiative.save();
+        return {
+            ...createdInitiative._doc,
+            _id: createdInitiative._id.toString() 
         }
     }
 }

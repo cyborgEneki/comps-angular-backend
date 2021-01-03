@@ -27,6 +27,10 @@ const initiativeSchema = new Schema({
         type: String,
         required: true
     },
+    goalTeam: {
+        type: String,
+        required: true
+    }
 })
 
 module.exports = mongoose.model('Initiative', initiativeSchema);
