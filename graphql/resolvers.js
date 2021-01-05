@@ -34,14 +34,16 @@ module.exports = {
 	initiatives: async function () {
 		const initiatives = await Initiative.find();
 		return {
-			initiatives: initiatives.map((q) => {
+			initiatives: initiatives.map(async (q) => {
 				const goalTeamRecord = GoalTeam.findById(q.goalTeam);
-
+				const indicators = await Indicator.find({
+					_id: { $in: q._doc.indicators },
+				});
 				return {
 					...q._doc,
 					_id: q._id.toString(),
 					goalTeam: goalTeamRecord,
-					indicators: indicators.bind(this, q._doc.indicators), //Ought to be an array of indicator ids
+					indicators: indicators //Ought to be an array of indicator ids
 				};
 			}),
 		};
