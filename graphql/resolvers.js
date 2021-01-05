@@ -119,7 +119,7 @@ module.exports = {
 
 		const createdIndicator = await indicator.save();
 		const initiativeRecord = await Initiative.findById(
-			initiative.initiative
+			indicatorInput.initiative
 		);
 
 		return {

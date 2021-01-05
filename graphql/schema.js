@@ -22,7 +22,7 @@ module.exports = buildSchema(`
         units: String!
         dataSource: String!
         type: String!
-        initiative: String!
+        initiative: Initiative!
     }
     type InitiativeData {
         initiatives: [Initiative!]!
