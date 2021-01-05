@@ -149,22 +149,14 @@ module.exports = {
 			initiative: Initiative.bind(this, initiativeRecord),
 		};
 	},
-	initiativeIndicators: async function (initiativeId) {
-		// It cannot see the indicators array for some reason
-		const indicators = await Indicator.find({
-			statement: { $eq: "statement1" },
-		});
+	initiativeIndicators: async function (initiative) {
+		const indicators = await Indicator.find(initiative);
 
 		return {
 			indicators: indicators.map((q) => {
-				const initiativeRecord = Initiative.findById(
-					"5ff4a4a009da94c369218102"
-				);
-
 				return {
 					...q._doc,
 					_id: q._id.toString(),
-					// initiative: initiativeRecord,
 				};
 			}),
 		};
