@@ -78,6 +78,17 @@ module.exports = {
 			goalTeam: GoalTeam.bind(this, goalTeamRecord),
 		};
 	},
+	deleteInitiative: async function (id) {
+		const initiative = await Initiative.findById(id);
+		if (!initiative) {
+			throw new Error("No initiative found!");
+		}
+		await Initiative.findByIdAndRemove(id);
+		return {
+			...initiative._doc,
+			_id: initiative._id.toString(),
+		};
+	},
 	goalTeams: async function () {
 		const goalTeams = await GoalTeam.find();
 		return {
@@ -116,7 +127,7 @@ module.exports = {
 	indicator: async (indicatorId) => {
 		try {
 			const indicator = await Indicator.findById(indicatorId);
-			
+
 			return {
 				...indicator._doc,
 			};
@@ -149,6 +160,22 @@ module.exports = {
 			initiative: Initiative.bind(this, initiativeRecord),
 		};
 	},
+	updateIndicator: async function ({ indicatorInput }) {
+		let updatedIndicator = await Indicator.findById(indicatorInput.id);
+
+		updatedIndicator.statement = indicatorInput.statement;
+		updatedIndicator.description = indicatorInput.description;
+		updatedIndicator.label = indicatorInput.label;
+		updatedIndicator.units = indicatorInput.units;
+		updatedIndicator.dataSource = indicatorInput.dataSource;
+		updatedIndicator.type = indicatorInput.type;
+		updatedIndicator = await updatedIndicator.save();
+
+		return {
+			...updatedInitiative._doc,
+			_id: updatedInitiative._id.toString(),
+		};
+	},
 	initiativeIndicators: async function (initiative) {
 		const indicators = await Indicator.find(initiative);
 
@@ -161,4 +188,15 @@ module.exports = {
 			}),
 		};
 	},
+	deleteIndicator: async function (id) {
+		const indicator = await Indicator.findById(id);
+		if (!indicator) {
+			throw new Error("No indicator found!");
+		}
+		await Indicator.findByIdAndRemove(id);
+		return {
+			...indicator._doc,
+			_id: indicator._id.toString(),
+		};
+	}
 };

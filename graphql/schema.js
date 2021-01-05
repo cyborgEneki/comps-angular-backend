@@ -79,6 +79,8 @@ module.exports = buildSchema(`
         updateInitiative(initiativeInput: EditInitiativeInputData): Initiative!
         createGoalTeam(goalTeamInput: GoalTeamInputData): GoalTeam!
         createIndicator(indicatorInput: IndicatorInputData): Indicator!
+        deleteIndicator(id: ID!): Indicator!
+        deleteInitiative(id: ID!): Initiative!
     }
     schema {
         query: RootQuery
