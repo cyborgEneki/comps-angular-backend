@@ -78,11 +78,17 @@ module.exports = {
 			goalTeam: GoalTeam.bind(this, goalTeamRecord),
 		};
 	},
-	deleteInitiative: async function (id) {
+	deleteInitiative: async function ({id}) {
 		const initiative = await Initiative.findById(id);
 		if (!initiative) {
 			throw new Error("No initiative found!");
 		}
+		const indicators = await Indicator.find({initiative: id});
+
+		indicators.map(async (q) => {
+			await Indicator.findByIdAndRemove(q._id);
+		})
+
 		await Initiative.findByIdAndRemove(id);
 		return {
 			...initiative._doc,
@@ -188,7 +194,7 @@ module.exports = {
 			}),
 		};
 	},
-	deleteIndicator: async function (id) {
+	deleteIndicator: async function ({id}) {
 		const indicator = await Indicator.findById(id);
 		if (!indicator) {
 			throw new Error("No indicator found!");
