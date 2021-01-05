@@ -42,12 +42,12 @@ module.exports = {
 					_id: q._id.toString(),
 					goalTeam: goalTeamRecord,
 					indicators: indicators.bind(this, q._doc.indicators),
-				}
+				};
 			}),
 		};
 	},
 	indicators: async () => {
-	  const indicators = await Indicator.find();
+		const indicators = await Indicator.find();
 		return {
 			indicators: indicators.map((q) => {
 				const initiativeRecord = Initiative.findById(q.initiative);
@@ -81,9 +81,7 @@ module.exports = {
 		};
 	},
 	updateInitiative: async function ({ initiativeInput }) {
-		let updatedInitiative = await Initiative.findById(
-			initiativeInput.id
-		);
+		let updatedInitiative = await Initiative.findById(initiativeInput.id);
 		updatedInitiative.name = initiativeInput.name;
 		updatedInitiative.leadName = initiativeInput.leadName;
 		updatedInitiative.leadEmail = initiativeInput.leadEmail;
@@ -149,12 +147,18 @@ module.exports = {
 		};
 	},
 	initiativeIndicators: async function ({ initiativeId }) {
-		const indicators = await Indicator.findById({ initiative: initiativeId });
+		const indicators = await Indicator.find(initiativeId);
+
 		return {
 			indicators: indicators.map((q) => {
+				const initiativeRecord = Initiative.findById(
+					"5ff4a4a009da94c369218102"
+				);
+
 				return {
 					...q._doc,
 					_id: q._id.toString(),
+					// initiative: initiativeRecord,
 				};
 			}),
 		};

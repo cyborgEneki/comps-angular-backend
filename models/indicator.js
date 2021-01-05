@@ -28,9 +28,9 @@ const indicatorSchema = new Schema({
 		required: true,
 	},
 	initiative: {
-		type: String,
-		required: true,
-	}
+		type: Schema.Types.ObjectId,
+		ref: "Initiative"
+	},
 });
 
 module.exports = mongoose.model("Indicator", indicatorSchema);
