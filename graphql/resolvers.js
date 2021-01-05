@@ -25,6 +25,7 @@ module.exports = {
 			return {
 				...initiative._doc,
 				goalTeam: goalTeamRecord,
+				indicators: indicators.bind(this, initiative._doc.indicators),
 			};
 		} catch (err) {
 			throw err;
@@ -32,7 +33,6 @@ module.exports = {
 	},
 	initiatives: async function () {
 		const initiatives = await Initiative.find();
-		console.log('te')
 		return {
 			initiatives: initiatives.map((q) => {
 				const goalTeamRecord = GoalTeam.findById(q.goalTeam);
@@ -148,4 +148,15 @@ module.exports = {
 			initiative: Initiative.bind(this, initiativeRecord),
 		};
 	},
+	initiativeIndicators: async function ({ initiativeId }) {
+		const indicators = await Indicator.findById({ initiative: initiativeId });
+		return {
+			indicators: indicators.map((q) => {
+				return {
+					...q._doc,
+					_id: q._id.toString(),
+				};
+			}),
+		};
+	}
 };
