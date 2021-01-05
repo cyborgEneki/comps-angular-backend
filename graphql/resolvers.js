@@ -2,17 +2,21 @@ const Initiative = require("../models/initiative");
 const GoalTeam = require("../models/goalTeam");
 const Indicator = require("../models/indicator");
 
+const indicators = async (indicatorIds) => {
+	try {
+		const indicators = await Indicator.find({
+			_id: { $in: indicatorIds },
+		});
+		return indicators.map((indicator) => ({
+			...indicator._doc,
+			initiative: initiative.bind(this, indicator._doc.initiative),
+		}));
+	} catch {
+		throw err;
+	}
+};
+
 module.exports = {
-	goalTeam: async (goalTeamId) => {
-		try {
-			const goalTeam = await GoalTeam.findById(goalTeamId);
-			return {
-				...goalTeam._doc,
-			};
-		} catch (err) {
-			throw err;
-		}
-	},
 	initiative: async (initiativeId) => {
 		try {
 			const initiative = await Initiative.findById(initiativeId);
@@ -28,6 +32,7 @@ module.exports = {
 	},
 	initiatives: async function () {
 		const initiatives = await Initiative.find();
+		console.log('te')
 		return {
 			initiatives: initiatives.map((q) => {
 				const goalTeamRecord = GoalTeam.findById(q.goalTeam);
@@ -36,6 +41,21 @@ module.exports = {
 					...q._doc,
 					_id: q._id.toString(),
 					goalTeam: goalTeamRecord,
+					indicators: indicators.bind(this, q._doc.indicators),
+				}
+			}),
+		};
+	},
+	indicators: async () => {
+	  const indicators = await Indicator.find();
+		return {
+			indicators: indicators.map((q) => {
+				const initiativeRecord = Initiative.findById(q.initiative);
+
+				return {
+					...q._doc,
+					_id: q._id.toString(),
+					initiative: initiativeRecord,
 				};
 			}),
 		};
@@ -62,7 +82,7 @@ module.exports = {
 	},
 	updateInitiative: async function ({ initiativeInput }) {
 		let updatedInitiative = await Initiative.findById(
-			"5ff1dd79d48b3fa67fb33946"
+			initiativeInput.id
 		);
 		updatedInitiative.name = initiativeInput.name;
 		updatedInitiative.leadName = initiativeInput.leadName;
@@ -114,7 +134,7 @@ module.exports = {
 			units: indicatorInput.units,
 			dataSource: indicatorInput.dataSource,
 			type: indicatorInput.type,
-			initiative: indicatorInput.initiative
+			initiative: indicatorInput.initiative,
 		});
 
 		const createdIndicator = await indicator.save();

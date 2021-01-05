@@ -31,6 +31,10 @@ const initiativeSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	indicators: {
+		type: Schema.Types.ObjectId,
+		ref: "Indicator",
+	}
 });
 
 module.exports = mongoose.model('Initiative', initiativeSchema);

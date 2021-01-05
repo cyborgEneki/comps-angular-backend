@@ -10,12 +10,14 @@ module.exports = buildSchema(`
         endYear: String!
         statement: String!
         goalTeam: GoalTeam!
+        indicators: [Indicator!]
     }
     type GoalTeam {
         _id: ID!
         name: String!
     }
     type Indicator {
+        _id: ID!
         statement: String!
         description: String!
         label: String!
@@ -42,6 +44,16 @@ module.exports = buildSchema(`
         statement: String!
         goalTeam: String!
     }
+    input EditInitiativeInputData {
+        id: ID!
+        name: String!
+        leadName: String!
+        leadEmail: String!
+        startYear: String!
+        endYear: String!
+        statement: String!
+        goalTeam: String!
+    }
     input GoalTeamInputData {
         name: String!
     }
@@ -58,10 +70,12 @@ module.exports = buildSchema(`
         initiative(_id: ID!): Initiative!
         initiatives: InitiativeData!
         goalTeams: GoalTeamData!
+        indicators: IndicatorData!
+        indicator(_id: ID!): Indicator!
     }
     type RootMutation {
         createInitiative(initiativeInput: InitiativeInputData): Initiative!
-        updateInitiative(initiativeInput: InitiativeInputData): Initiative!
+        updateInitiative(initiativeInput: EditInitiativeInputData): Initiative!
         createGoalTeam(goalTeamInput: GoalTeamInputData): GoalTeam!
         createIndicator(indicatorInput: IndicatorInputData): Indicator!
     }

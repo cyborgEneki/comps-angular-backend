@@ -31,6 +31,10 @@ const indicatorSchema = new Schema({
 		type: String,
 		required: true,
 	}
+	// initiative: {
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: "Author"
+	// },
 });
 
 module.exports = mongoose.model("Indicator", indicatorSchema);
