@@ -27,10 +27,10 @@ const indicatorSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	goalTeam: {
-		type: Schema.Types.ObjectId,
-		ref: "GoalTeam",
-	},
+	initiative: {
+		type: String,
+		required: true,
+	}
 });
 
 module.exports = mongoose.model("Indicator", indicatorSchema);

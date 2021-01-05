@@ -1,5 +1,6 @@
 const Initiative = require("../models/initiative");
 const GoalTeam = require("../models/goalTeam");
+const Indicator = require("../models/indicator");
 
 module.exports = {
 	goalTeam: async (goalTeamId) => {
@@ -103,6 +104,28 @@ module.exports = {
 		return {
 			...createdGoalTeam._doc,
 			_id: createdGoalTeam._id.toString(),
+		};
+	},
+	createIndicator: async function ({ indicatorInput }) {
+		const indicator = new Indicator({
+			statement: indicatorInput.statement,
+			description: indicatorInput.description,
+			label: indicatorInput.label,
+			units: indicatorInput.units,
+			dataSource: indicatorInput.dataSource,
+			type: indicatorInput.type,
+			initiative: indicatorInput.initiative
+		});
+
+		const createdIndicator = await indicator.save();
+		const initiativeRecord = await Initiative.findById(
+			initiative.initiative
+		);
+
+		return {
+			...createdIndicator._doc,
+			_id: createdIndicator._id.toString(),
+			initiative: Initiative.bind(this, initiativeRecord),
 		};
 	},
 };

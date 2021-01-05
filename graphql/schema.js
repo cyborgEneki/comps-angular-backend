@@ -21,6 +21,8 @@ module.exports = buildSchema(`
         label: String!
         units: String!
         dataSource: String!
+        type: String!
+        initiative: String!
     }
     type InitiativeData {
         initiatives: [Initiative!]!
@@ -49,6 +51,8 @@ module.exports = buildSchema(`
         label: String!
         units: String!
         dataSource: String!
+        type: String!
+        initiative: String!
     }
     type RootQuery {
         initiative(_id: ID!): Initiative!
