@@ -78,16 +78,16 @@ module.exports = {
 			goalTeam: GoalTeam.bind(this, goalTeamRecord),
 		};
 	},
-	deleteInitiative: async function ({id}) {
+	deleteInitiative: async function ({ id }) {
 		const initiative = await Initiative.findById(id);
 		if (!initiative) {
 			throw new Error("No initiative found!");
 		}
-		const indicators = await Indicator.find({initiative: id});
+		const indicators = await Indicator.find({ initiative: id });
 
 		indicators.map(async (q) => {
 			await Indicator.findByIdAndRemove(q._id);
-		})
+		});
 
 		await Initiative.findByIdAndRemove(id);
 		return {
@@ -182,11 +182,15 @@ module.exports = {
 			_id: updatedInitiative._id.toString(),
 		};
 	},
-	initiativeIndicators: async function (initiative) {
+	initiativePathwayIndicators: async function (initiative) {
 		const indicators = await Indicator.find(initiative);
 
+		initiativeIndicators = indicators.filter(
+			(indicator) => indicator.type === "P"
+		);
+
 		return {
-			indicators: indicators.map((q) => {
+			indicators: initiativeIndicators.map((q) => {
 				return {
 					...q._doc,
 					_id: q._id.toString(),
@@ -194,7 +198,23 @@ module.exports = {
 			}),
 		};
 	},
-	deleteIndicator: async function ({id}) {
+	initiativeOutcomeIndicators: async function (initiative) {
+		const indicators = await Indicator.find(initiative);
+
+		initiativeIndicators = indicators.filter(
+			(indicator) => indicator.type === "O"
+		);
+
+		return {
+			indicators: initiativeIndicators.map((q) => {
+				return {
+					...q._doc,
+					_id: q._id.toString(),
+				};
+			}),
+		};
+	},
+	deleteIndicator: async function ({ id }) {
 		const indicator = await Indicator.findById(id);
 		if (!indicator) {
 			throw new Error("No indicator found!");
@@ -204,5 +224,5 @@ module.exports = {
 			...indicator._doc,
 			_id: indicator._id.toString(),
 		};
-	}
+	},
 };

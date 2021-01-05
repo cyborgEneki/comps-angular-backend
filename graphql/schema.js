@@ -72,7 +72,8 @@ module.exports = buildSchema(`
         goalTeams: GoalTeamData!
         indicators: IndicatorData!
         indicator(_id: ID!): Indicator!
-        initiativeIndicators(initiative: String!): IndicatorData!
+        initiativePathwayIndicators(initiative: String!): IndicatorData!
+        initiativeOutcomeIndicators(initiative: String!): IndicatorData!
     }
     type RootMutation {
         createInitiative(initiativeInput: InitiativeInputData): Initiative!
