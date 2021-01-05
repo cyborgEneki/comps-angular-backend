@@ -15,11 +15,21 @@ module.exports = buildSchema(`
         _id: ID!
         name: String!
     }
+    type Indicator {
+        statement: String!
+        description: String!
+        label: String!
+        units: String!
+        dataSource: String!
+    }
     type InitiativeData {
         initiatives: [Initiative!]!
     }
     type GoalTeamData {
         goalTeams: [GoalTeam!]!
+    }
+    type IndicatorData {
+        indicators: [Indicator!]!
     }
     input InitiativeInputData {
         name: String!
@@ -33,6 +43,13 @@ module.exports = buildSchema(`
     input GoalTeamInputData {
         name: String!
     }
+    input IndicatorInputData {
+        statement: String!
+        description: String!
+        label: String!
+        units: String!
+        dataSource: String!
+    }
     type RootQuery {
         initiative(_id: ID!): Initiative!
         initiatives: InitiativeData!
@@ -42,6 +59,7 @@ module.exports = buildSchema(`
         createInitiative(initiativeInput: InitiativeInputData): Initiative!
         updateInitiative(initiativeInput: InitiativeInputData): Initiative!
         createGoalTeam(goalTeamInput: GoalTeamInputData): GoalTeam!
+        createIndicator(indicatorInput: IndicatorInputData): Indicator!
     }
     schema {
         query: RootQuery
