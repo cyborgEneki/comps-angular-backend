@@ -41,7 +41,7 @@ module.exports = {
 					...q._doc,
 					_id: q._id.toString(),
 					goalTeam: goalTeamRecord,
-					indicators: indicators.bind(this, q._doc.indicators),
+					indicators: indicators.bind(this, q._doc.indicators), //Ought to be an array of indicator ids
 				};
 			}),
 		};
@@ -51,7 +51,6 @@ module.exports = {
 		return {
 			indicators: indicators.map((q) => {
 				const initiativeRecord = Initiative.findById(q.initiative);
-
 				return {
 					...q._doc,
 					_id: q._id.toString(),
@@ -140,14 +139,20 @@ module.exports = {
 			indicatorInput.initiative
 		);
 
+		initiativeRecord.indicators.push(createdIndicator._id);
+		await initiativeRecord.save();
+
 		return {
 			...createdIndicator._doc,
 			_id: createdIndicator._id.toString(),
 			initiative: Initiative.bind(this, initiativeRecord),
 		};
 	},
-	initiativeIndicators: async function ({ initiativeId }) {
-		const indicators = await Indicator.find(initiativeId);
+	initiativeIndicators: async function (initiativeId) {
+		// It cannot see the indicators array for some reason
+		const indicators = await Indicator.find({
+			statement: { $eq: "statement1" },
+		});
 
 		return {
 			indicators: indicators.map((q) => {
