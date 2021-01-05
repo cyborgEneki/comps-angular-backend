@@ -2,30 +2,18 @@ const Initiative = require("../models/initiative");
 const GoalTeam = require("../models/goalTeam");
 const Indicator = require("../models/indicator");
 
-const indicators = async (indicatorIds) => {
-	try {
-		const indicators = await Indicator.find({
-			_id: { $in: indicatorIds },
-		});
-		return indicators.map((indicator) => ({
-			...indicator._doc,
-			initiative: initiative.bind(this, indicator._doc.initiative),
-		}));
-	} catch {
-		throw err;
-	}
-};
-
 module.exports = {
 	initiative: async (initiativeId) => {
 		try {
 			const initiative = await Initiative.findById(initiativeId);
 			const goalTeamRecord = await GoalTeam.findById(initiative.goalTeam);
-
+			const indicators = await Indicator.find({
+				_id: { $in: initiative._doc.indicators },
+			});
 			return {
 				...initiative._doc,
 				goalTeam: goalTeamRecord,
-				indicators: indicators.bind(this, initiative._doc.indicators),
+				indicators: indicators,
 			};
 		} catch (err) {
 			throw err;
@@ -43,20 +31,7 @@ module.exports = {
 					...q._doc,
 					_id: q._id.toString(),
 					goalTeam: goalTeamRecord,
-					indicators: indicators //Ought to be an array of indicator ids
-				};
-			}),
-		};
-	},
-	indicators: async () => {
-		const indicators = await Indicator.find();
-		return {
-			indicators: indicators.map((q) => {
-				const initiativeRecord = Initiative.findById(q.initiative);
-				return {
-					...q._doc,
-					_id: q._id.toString(),
-					initiative: initiativeRecord,
+					indicators: indicators,
 				};
 			}),
 		};
@@ -125,6 +100,30 @@ module.exports = {
 			_id: createdGoalTeam._id.toString(),
 		};
 	},
+	indicators: async () => {
+		const indicators = await Indicator.find();
+		return {
+			indicators: indicators.map((q) => {
+				const initiativeRecord = Initiative.findById(q.initiative);
+				return {
+					...q._doc,
+					_id: q._id.toString(),
+					initiative: initiativeRecord,
+				};
+			}),
+		};
+	},
+	indicator: async (indicatorId) => {
+		try {
+			const indicator = await Indicator.findById(indicatorId);
+			
+			return {
+				...indicator._doc,
+			};
+		} catch (err) {
+			throw err;
+		}
+	},
 	createIndicator: async function ({ indicatorInput }) {
 		const indicator = new Indicator({
 			statement: indicatorInput.statement,
@@ -169,5 +168,5 @@ module.exports = {
 				};
 			}),
 		};
-	}
+	},
 };
