@@ -178,8 +178,8 @@ module.exports = {
 		updatedIndicator = await updatedIndicator.save();
 
 		return {
-			...updatedInitiative._doc,
-			_id: updatedInitiative._id.toString(),
+			...updatedIndicator._doc,
+			_id: updatedIndicator._id.toString(),
 		};
 	},
 	initiativePathwayIndicators: async function (initiative) {
